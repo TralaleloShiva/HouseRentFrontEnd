@@ -3,10 +3,10 @@ import axios from "axios";
 import "./AuthPages.css";
 import { useNavigate } from "react-router-dom";
 
-
 const API_URL = "http://localhost:5000/api/auth";
 
 const AuthPages = () => {
+  const navigate = useNavigate(); // ✅ Moved to top
   const [isFlipped, setIsFlipped] = useState(false);
 
   // Login state
@@ -40,16 +40,13 @@ const AuthPages = () => {
 
       localStorage.setItem("token", res.data.token);
       alert(`Welcome back, ${res.data.user.name}!`);
-      navigate("/my-bookings");
+      navigate("/dashboard");
+ // ✅ Navigation now works
 
-      // TODO: Replace with navigation to dashboard
-      // e.g., navigate("/dashboard");
     } catch (err) {
       setLoginError(err.response?.data?.message || "Login failed");
     }
   };
-  const navigate = useNavigate();
-
 
   const handleRegisterSubmit = async (e) => {
     e.preventDefault();

@@ -6,10 +6,10 @@ const MyBookings = () => {
   const [bookings, setBookings] = useState([]);
   const [loading, setLoading] = useState(true);
 
-  const token = localStorage.getItem("token"); // Token from login
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (!token) return; // If token not found, don't make request
+    if (!token) return;
 
     const fetchBookings = async () => {
       try {
@@ -20,15 +20,15 @@ const MyBookings = () => {
         });
 
         setBookings(response.data);
-        setLoading(false);
       } catch (err) {
         console.error("Error fetching bookings:", err);
+      } finally {
         setLoading(false);
       }
     };
 
     fetchBookings();
-  }, [token]); // ✅ include token as a dependency
+  }, [token]);
 
   if (loading) {
     return (
@@ -49,8 +49,9 @@ const MyBookings = () => {
             <Card.Body>
               <Card.Title>Booking ID: {booking._id}</Card.Title>
               <Card.Text><strong>Status:</strong> {booking.status}</Card.Text>
-              <Card.Text><strong>Property ID:</strong> {booking.propertyId}</Card.Text>
-              <Card.Text><strong>Owner ID:</strong> {booking.ownerId}</Card.Text>
+              <Card.Text><strong>Property Address:</strong> {booking.propertyId?.prop?.Address}</Card.Text>
+              <Card.Text><strong>Amount:</strong> ₹{booking.propertyId?.prop?.Amt}</Card.Text>
+              <Card.Text><strong>Owner:</strong> {booking.ownerId?.name}</Card.Text>
               <Card.Text><strong>Booked by:</strong> {booking.username}</Card.Text>
             </Card.Body>
           </Card>
